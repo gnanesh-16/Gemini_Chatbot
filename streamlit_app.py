@@ -75,15 +75,18 @@ else:
     chat_history = st.session_state.chat.history
     st.session_state.chat = model.start_chat(history=chat_history)
 
+# Create columns for layout
+col1, col2 = st.columns(2)
+
 # Display chat history
 if "chat" in st.session_state:
-    with st.beta_container():
+    with col1:
         for message in st.session_state.chat.history:
             with st.chat_message("user" if message.role == "user" else "assistant"):
                 st.markdown(textwrap.dedent(message.parts[0].text).strip(), unsafe_allow_html=True)
 
 # User input and bot response
-with st.beta_container():
+with col2:
     prompt = st.text_input("Ask me a question")
 
     if prompt:
@@ -94,6 +97,7 @@ with st.beta_container():
         response_markdown = textwrap.dedent(response.text).strip()
         with st.chat_message("assistant"):
             st.markdown(response_markdown, unsafe_allow_html=True)
+
 
 
 
