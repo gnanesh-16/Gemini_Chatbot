@@ -23,7 +23,7 @@ def convert_chat_to_text(chat_history):
 if "chat" not in st.session_state:
     st.session_state.chat = model.start_chat(history=[])
 
-st.title("Chat with Google Gemini-Pro!")
+st.title("Gemini-Pro CBot#79!")
 
 # Display chat messages from history above the current input box
 for message in st.session_state.chat.history:
