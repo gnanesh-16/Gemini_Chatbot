@@ -104,8 +104,7 @@ if st.sidebar.button("Submit"):
         
         # You can use the image_query variable to generate a response
         if image_query:
-            # Use Gemini API key to get a response based on the image and query
-            response = genai.answer(api_key="YOUR_GEMINI_API_KEY", image=uploaded_image, query=image_query)
+            response = st.session_state.chat.send_message(image_query)
             
             response_markdown = textwrap.dedent(response.text).strip()
             with st.chat_message("assistant"):
@@ -130,6 +129,7 @@ if "chat" in st.session_state:
     for message in st.session_state.chat.history:
         with st.chat_message("user" if message.role == "user" else "assistant"):
             st.markdown(textwrap.dedent(message.parts[0].text).strip(), unsafe_allow_html=True)
+
 
 
 
