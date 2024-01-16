@@ -46,7 +46,7 @@ if st.button("Download Chat History"):
     st.download_button(
         label="Download Chat",
         data=chat_text,
-        file_name="chat_history.pdf",
+        file_name="chat_history.txt",
         key="download_button"
     )
 
