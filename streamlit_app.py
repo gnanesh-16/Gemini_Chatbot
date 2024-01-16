@@ -58,22 +58,24 @@ if "chat" not in st.session_state:
     st.session_state.chat = model.start_chat(history=[])
 
 # Display Form Title
-st.title("     Google Gemini-Pro!     ")
+st.title("Chat with Google Gemini-Pro!")
 
 # Cool-looking dropdown menu for selecting assistant personalities/modes
 st.markdown("<h2 style='text-align: center; color: #1E88E5;'>Select Assistant Mode</h2>", unsafe_allow_html=True)
 personalities = ["Friendly", "Professional", "Funny", "Serious"]
 personality_option = st.selectbox("Choose Assistant Mode", personalities)
 
-# Set the assistant's personality based on the user's selection
-if personality_option == "Friendly":
-    model.change_personality("friendly")
-elif personality_option == "Professional":
-    model.change_personality("professional")
-elif personality_option == "Funny":
-    model.change_personality("funny")
-elif personality_option == "Serious":
-    model.change_personality("serious")
+# Button to change assistant's personality
+if st.button("Change Personality"):
+    # Set the assistant's personality based on the user's selection
+    if personality_option == "Friendly":
+        st.session_state.chat = model.start_chat(history=[], personality="friendly")
+    elif personality_option == "Professional":
+        st.session_state.chat = model.start_chat(history=[], personality="professional")
+    elif personality_option == "Funny":
+        st.session_state.chat = model.start_chat(history=[], personality="funny")
+    elif personality_option == "Serious":
+        st.session_state.chat = model.start_chat(history=[], personality="serious")
 
 # Display chat messages from history above the current input box
 for message in st.session_state.chat.history:
@@ -92,3 +94,4 @@ if prompt := st.text_input("I possess a well of knowledge. What would you like t
     # Display the last 
     with st.chat_message("assistant"):
         st.markdown(response.text)
+
