@@ -1,2 +1,2 @@
--U streamlit
--U google-generativeai
+streamlit
+google-generativeai
