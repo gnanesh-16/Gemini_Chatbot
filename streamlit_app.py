@@ -35,6 +35,7 @@
 
 import streamlit as st
 import os
+import FPDF
 import google.generativeai as genai
 from fpdf import FPDF  # Import FPDF library for creating PDF
 
