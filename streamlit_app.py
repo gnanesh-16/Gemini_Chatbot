@@ -48,26 +48,22 @@ model = genai.GenerativeModel('gemini-pro')
 
 # Gemini uses 'model' for assistant; Streamlit uses 'assistant'
 def role_to_streamlit(role):
-  if role == "model":
-    return "assistant"
-  else:
-    return role
+    if role == "model":
+        return "assistant"
+    else:
+        return role
 
 # Add a Gemini Chat history object to Streamlit session state
 if "chat" not in st.session_state:
-    st.session_state.chat = model.start_chat(history = [])
+    st.session_state.chat = model.start_chat(history=[])
 
 # Display Form Title
 st.title("Chat with Google Gemini-Pro!")
 
-# Display chat messages from history above current input box
-for message in st.session_state.chat.history:
-    with st.chat_message(role_to_streamlit(message.role)):
-        st.markdown(message.parts[0].text)
-
-# Add a dropdown menu of different personalities
+# Cool-looking dropdown menu for selecting assistant personalities/modes
+st.markdown("<h2 style='text-align: center; color: #1E88E5;'>Select Assistant Mode</h2>", unsafe_allow_html=True)
 personalities = ["Friendly", "Professional", "Funny", "Serious"]
-personality_option = st.selectbox("Assistant Personality", personalities)
+personality_option = st.selectbox("Choose Assistant Mode", personalities)
 
 # Set the assistant's personality based on the user's selection
 if personality_option == "Friendly":
@@ -79,14 +75,20 @@ elif personality_option == "Funny":
 elif personality_option == "Serious":
     model.change_personality("serious")
 
-# Accept user's next message, add to context, resubmit context to Gemini
-if prompt := st.chat_input("I possess a well of knowledge. What would you like to know?"):
-    # Display user's last message
-    st.chat_message("user").markdown(prompt)
+# Display chat messages from history above the current input box
+for message in st.session_state.chat.history:
+    with st.chat_message(role_to_streamlit(message.role)):
+        st.markdown(message.parts[0].text)
 
-    # Send user entry to Gemini and read the response
+# Accept the user's next message, add to context, resubmit the context to Gemini
+if prompt := st.text_input("I possess a well of knowledge. What would you like to know?"):
+    # Display the user's last message
+    with st.chat_message("user"):
+        st.markdown(prompt)
+    
+    # Send the user's entry to Gemini and read the response
     response = st.session_state.chat.send_message(prompt) 
-
-    # Display last 
+    
+    # Display the last 
     with st.chat_message("assistant"):
         st.markdown(response.text)
