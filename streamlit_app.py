@@ -58,7 +58,7 @@ if "chat" not in st.session_state:
     st.session_state.chat = model.start_chat(history=[])
 
 # Display Form Title
-st.title("Chat with Google Gemini-Pro!")
+st.title("     Google Gemini-Pro!     ")
 
 # Cool-looking dropdown menu for selecting assistant personalities/modes
 st.markdown("<h2 style='text-align: center; color: #1E88E5;'>Select Assistant Mode</h2>", unsafe_allow_html=True)
