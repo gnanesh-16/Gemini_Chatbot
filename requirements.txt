@@ -1,0 +1,2 @@
+-U streamlit
+-U google-generativeai
