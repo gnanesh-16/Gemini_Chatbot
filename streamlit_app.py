@@ -42,6 +42,7 @@
 import streamlit as st
 import os
 import google.generativeai as genai
+from PIL import Image
 import fitz  # PyMuPDF
 
 # Initialize Gemini-Pro 
@@ -79,6 +80,18 @@ if prompt := st.text_input("I possess a well of knowledge. What would you like t
     # Display the last 
     with st.chat_message("assistant"):
         st.markdown(response.text)
+
+# Image uploading
+uploaded_image = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
+
+if uploaded_image is not None:
+    image = Image.open(uploaded_image)
+    st.image(image, caption="Uploaded Image.", use_column_width=True)
+
+    # If users ask about the image, provide a response
+    if "IMAGE" in prompt.upper():
+        with st.chat_message("assistant"):
+            st.write("You asked about the uploaded image. Provide a relevant response.")  # Modify as needed
 
 # PDF uploading
 uploaded_pdf = st.file_uploader("Upload a PDF", type=["pdf"])
