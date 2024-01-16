@@ -62,6 +62,7 @@ import os
 import textwrap
 import streamlit as st
 import google.generativeai as genai
+from google.generativeai import generation_types
 
 # Configure generative AI
 genai.configure(api_key=os.getenv("GOOGLE_GEMINI_KEY"))
@@ -90,13 +91,17 @@ with col2:
     prompt = st.text_input("Ask me a question")
 
     if prompt:
-        # Send user input to the chat model
-        response = st.session_state.chat.send_message(prompt)
+        try:
+            # Send user input to the chat model
+            response = st.session_state.chat.send_message(prompt)
 
-        # Display bot response
-        response_markdown = textwrap.dedent(response.text).strip()
-        with st.chat_message("assistant"):
-            st.markdown(response_markdown, unsafe_allow_html=True)
+            # Display bot response
+            response_markdown = textwrap.dedent(response.text).strip()
+            with st.chat_message("assistant"):
+                st.markdown(response_markdown, unsafe_allow_html=True)
+
+        except generation_types.StopCandidateException as e:
+            st.warning("Sorry, the model couldn't generate a response. Please try rephrasing your question.")
 
 
 
